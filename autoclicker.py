@@ -4,10 +4,14 @@ import tkinter as tk
 from tkinter import messagebox
 import threading
 import keyboard
+import webbrowser
+from winotify import Notification, audio
 
 BG_COLOR = "#101218"
 APP_V    = "1.0"
 
+def open_github_link(event):
+    webbrowser.open("https://github.com/Gwigzz/auto-click")
 
 """
     Stop autoclicker
@@ -16,7 +20,10 @@ def stop():
     global running
     running = False
     status_label.config(text="STOP", fg="red", font=("Arial", 10, "bold"))
-
+    notif = Notification(app_id="Auto Clicker", title="Auto Clicker", msg="Stop", duration="short")
+    notif.show()
+    notif.set_audio(audio.Default, loop=False)
+    
 """
     Started autoclicker
 """
@@ -26,6 +33,9 @@ def start():
         running = True
         status_label.config(text="RUNNING...", fg="#45D134", font=("Arial", 10, "bold"))
         threading.Thread(target=auto_click, daemon=True).start()
+        notif = Notification(app_id="Auto Clicker", title="Auto Clicker", msg="Running ...", duration="short")
+        notif.show()
+        notif.set_audio(audio.Default, loop=False)
 
 running = False
 
@@ -38,7 +48,7 @@ root.geometry("280x100")
 try:
     root.iconbitmap("ico.ico")
 except:
-    messagebox.showinfo("No Icon Found", "Missing application icon. Please create or download ico.ico")
+    messagebox.showinfo("No Icon Found", "Missing application icon. \nPlease create or download ico.ico from github repo")
 
 root.resizable(False, False)
 
@@ -55,6 +65,10 @@ start_button.pack(side=tk.LEFT, padx=10)
 
 stop_button = tk.Button(frame, text="Stop", command=stop, borderwidth=1)
 stop_button.pack(side=tk.LEFT, padx=10)
+
+labelGHLink = tk.Label(root, text="github", fg="#0c91ff", cursor="hand2", font=("Arial", 10, "underline italic"), bg=f"{BG_COLOR}")
+labelGHLink.bind("<Button-1>", open_github_link)
+labelGHLink.place(relx=1.0, y=5, anchor="ne")
 
 def auto_click():
     while running:
