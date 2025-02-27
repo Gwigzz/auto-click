@@ -9,3 +9,7 @@
 - Compile with PyInstaller or other compiler : py -m PyInstaller --onefile --icon="ico.ico" --noconsole autoclicker.py
 
 Don't forget the root icon
+
+
+### Screen
+![Search](/screen/screen1.png)
