@@ -1,0 +1,1 @@
+compile : py -m PyInstaller --onefile --icon="ico.ico" --noconsole autoclicker.py
